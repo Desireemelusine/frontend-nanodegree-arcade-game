@@ -3,17 +3,16 @@ var Enemy = function(x, y, speed) {
     this.x = x;
     this.y = y;
     this.canvasrow = 101;
-    //this.speed = speed;
-    //this.width = 75;
-    //this.height = 75;
+    this.limit = this.canvasrow * 5;
+    this.speed = speed;
     this.sprite = 'images/enemy-bug.png';
 };
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
-  if(this.x < this.canvasrow * 5){
-    this.x += 200 * dt;
+  if(this.x < this.limit){
+    this.x += this.speed * dt;
   }
   else {
     this.x = 0;
@@ -28,10 +27,11 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-var enemy1 = new Enemy(0, 83, 150)
-var enemy2 = new Enemy(-100, 166, 100)
-var enemy3 = new Enemy(-300, 249, 75)
-var allEnemies = [enemy1, enemy2, enemy3];
+var enemy1 = new Enemy(-100, 55, 120)
+var enemy2 = new Enemy(0, 138, 90)
+var enemy3 = new Enemy(-250, 138, 90)
+var enemy4 = new Enemy(-300, 221, 65)
+var allEnemies = [enemy1, enemy2, enemy3, enemy4];
 
 
 //Abaixo apresento uma outra opção de OOP
@@ -56,7 +56,8 @@ var Player = function(x, y) {
   this.canvasrow = 101;
   this.canvascol = 83;
   this.x = this.canvasrow * 2;
-  this.y = (this.canvascol * 4);
+  this.y = (this.canvascol * 4) + 55;
+  this.win = false;
   this.sprite = 'images/char-boy.png';
 };
 
@@ -75,16 +76,17 @@ Player.prototype.update = function (){
    }*/
     if(this.y === enemy.y && (
       enemy.x < this.x + this.canvasrow / 2 &&
-      enemy.x + enemy.canvasrow / 4 > this.x /*&&
+      enemy.x + enemy.canvasrow / 2 > this.x /*&&
       enemy.y < this.y + this.canvasrol &&
       enemy.canvasrol + enemy.y > this.y*/)){
       this.reset();
       console.log("collide!");
     }
-    if( this.y === 0){
+    if( this.y === -28){
       console.log("win!");
+      this.win = true;
       //alert("win!");
-      //this.reset();
+      this.reset();
     }
     console.log(this.y, enemy.y);
   }
@@ -117,7 +119,7 @@ Player.prototype.handleInput = function (input){
 
 Player.prototype.reset = function (){
 this.x = this.canvasrow * 2;
-this.y = this.canvascol * 4;
+this.y = (this.canvascol * 4) + 55;
 };
 
 var player = new Player(0,0);
