@@ -31,13 +31,6 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-var enemy1 = new Enemy(-100, 138, 120)
-var enemy2 = new Enemy(0, 221, 90)
-var enemy3 = new Enemy(-250, 221, 90)
-var enemy4 = new Enemy(-300, 304, 65)
-var allEnemies = [enemy1, enemy2, enemy3, enemy4];
-
-
 //Abaixo apresento uma outra opção de OOP
 /*class Player {
   constructor(){
@@ -50,11 +43,8 @@ var allEnemies = [enemy1, enemy2, enemy3, enemy4];
   render(){
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   }
-  //handle(){}
-  //reset(){}
 }*/
-//this.x = x * 2;
-//this.y = y * 5;
+
 
 var Player = function(x, y) {
   this.canvasrow = 101;
@@ -73,7 +63,11 @@ Player.prototype.render = function() {
 };
 
 Player.prototype.update = function (){
-
+  if( this.y === -28 && this.x === 101){
+    this.win = true;
+    this.score += 10;
+    console.log("win!");
+  }
 };
 
 Player.prototype.checkCollisions = function (){
@@ -87,14 +81,6 @@ Player.prototype.checkCollisions = function (){
       console.log("collide!");
       player.lives -= 1;
     }
-    if( this.y === -28 && this.x === 101){
-      console.log("win!");
-      this.win = true;
-      this.score += 10;
-      //alert("win!");
-      this.reset();
-    }
-    console.log(this.x, enemy.y);
   }
 };
 
@@ -124,11 +110,12 @@ Player.prototype.handleInput = function (input){
 };
 
 Player.prototype.reset = function (){
-this.x = this.canvasrow * 2;
-this.y = (this.canvascol * 4) + 55;
+  this.x = this.canvasrow * 2;
+  this.y = (this.canvascol * 4) + 55;
+  this.score = 0; //new
+  this.lives = 3; //new
+  this.gameOver = false;   // new initially set to false
 };
-
-var player = new Player(0,0);
 
 /*
 /////// scores and lives
@@ -156,34 +143,44 @@ if(player.lives <= 0 && !=this.gameOver){
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-var Gems = function() {
-    this.canvasrow = 20;
-    this.canvascol =  25;
+var Gems = function(x, y, sprite) {
+  //var gemSprite = ['images/Gem Blue.png', 'images/Gem Green.png', 'images/Gem Orange.png'];
+  //this.sprite = gemSprite[Math.floor(Math.random()* gemSprite.length)];
     this.x = x;
     this.y = y;
-    this.allGems = ['images/Gem Blue.png', 'images/Gem Green.png', 'images/Gem Orange.png'];
-    this.sprite = allGems[math.floor(Math.random()* allGems.length)];
-
+    this.canvasrow = 20;
+    this.canvascol =  25;
+    this.sprite = sprite;
+    //this.x = Math.floor(Math.random() * (450));
+    //this.y = Math.floor(Math.random() * (350));
 };
 
 Gems.prototype.checkGems = function() {
-      if(this.y === player.y && (
-        player.x < this.x + this.canvasrow / 2 &&
-        player.x + player.canvasrow / 2 > this.x /*&&
-        enemy.y < this.y + this.canvasrol &&
-        enemy.canvasrol + enemy.y > this.y*/)){
-        console.log("gem!");
-        if(this.sprite === 'images/Gem Blue.png'){
-          player.score += 20;
-        }
-        else if(this.sprite === 'images/Gem Green.png'){
-          player.score += 30;
-        }
-        else if(this.sprite === 'images/Gem Orange.png'){
+  for( var gem of allGems){
+    if(this.y === player.y && (
+      player.x < this.x + this.canvasrow / 2 &&
+      player.x + player.canvasrow / 2 > this.x //&&
+      //enemy.y < this.y + this.canvasrol &&
+      //enemy.canvasrol + enemy.y > this.y
+    )){
+      //this.reset();
+      console.log("gem!");
+      if(this.sprite === 'images/Gem Blue.png'){
+        player.score += 20;
+      }
+      else if(this.sprite === 'images/Gem Green.png'){
+        player.score += 30;
+      }
+      else if(this.sprite === 'images/Gem Orange.png'){
+        player.score += 40;
+      }
+
+      /*
           player.score += 40;
         }
-        // this.reset();
-      }
+        this.reset();*/
+     }
+   }
   };
 
 Gems.prototype.update = function() {
@@ -196,16 +193,13 @@ Gems.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-//var gem = new Gems(0, 138)
 
 
 
 
-/*Gems.prototype.render = function() {
+Gems.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
-
-var gem = new Gems (0,0);*/
 
 /* explicação:no update é quando inserimos o collision porque será exatamente a função
 que  terá que fazer a cada vez que se encontram.
@@ -231,17 +225,25 @@ com Enemy. Voilà! Tudo conectado.
      console.log("You lost!");
  }*/
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
-
-
-
-/*Player.prototype.handleInput= function (){
-
-}*/
-
 // Now instantiate your objects.
+// Enemies
+var enemy1 = new Enemy(-100, 138, 120);
+var enemy2 = new Enemy(0, 221, 90);
+var enemy3 = new Enemy(-250, 221, 90);
+var enemy4 = new Enemy(-300, 304, 65);
+var allEnemies = [enemy1, enemy2, enemy3, enemy4];
+
+//Player
+var player = new Player(0,0);
+
+//Gems
+var gem1 = new Gems(0, 304, 'images/Gem Blue.png');
+var gem2 = new Gems(0, 221, 'images/Gem Green.png');
+var gem3 = new Gems(0, 138, 'images/Gem Orange.png');
+var allGems = [gem1, gem2, gem3];
+
+
+
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
