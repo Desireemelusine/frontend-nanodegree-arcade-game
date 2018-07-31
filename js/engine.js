@@ -87,7 +87,7 @@ var Engine = (function(global) {
         updateEntities(dt);
 
 
-        // checkCollisions();
+        player.checkCollisions();
     }
 
     /* This is called by the update function and loops through all of the
@@ -100,9 +100,11 @@ var Engine = (function(global) {
     function updateEntities(dt) {
         allEnemies.forEach(function(enemy) {
           enemy.update(dt);
-            //player.update(enemy);
         });
         player.update();
+        //allgems.forEach(function(gem) {
+        //allgems.update();
+        //});
     }
 
     /* This function initially draws the "game level", it will then call
@@ -117,11 +119,11 @@ var Engine = (function(global) {
          */
         var rowImages = [
                 'images/water-block.png',   // Top row is water
+                'images/water-block.png',   // Top row is water
                 'images/stone-block.png',   // Row 1 of 3 of stone
                 'images/stone-block.png',   // Row 2 of 3 of stone
                 'images/stone-block.png',   // Row 3 of 3 of stone
-                'images/grass-block.png',   // Row 1 of 2 of grass
-                'images/grass-block.png'    // Row 2 of 2 of grass
+                'images/grass-block.png'    // Row 1 of 2 of grass
             ],
             numRows = 6,
             numCols = 5,
@@ -163,6 +165,10 @@ var Engine = (function(global) {
          });
 
         player.render();
+
+        //allgems.forEach(function(gem) {
+        //allgems.render();
+        //});
     }
 
     /* This function does nothing but it could have been a good place to
@@ -182,7 +188,12 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/Gem Blue.png',
+        'images/Gem Green.png',
+        'images/Gem Orange.png',
+        'images/Star.png',
+        'images/Heart.png'
     ]);
     Resources.onReady(init);
 

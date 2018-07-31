@@ -10,6 +10,9 @@ var Enemy = function(x, y, speed) {
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
+// You should multiply any movement by the dt parameter
+// which will ensure the game runs at the same speed for
+// all computers.
 Enemy.prototype.update = function(dt) {
   if(this.x < this.limit){
     this.x += this.speed * dt;
@@ -17,9 +20,10 @@ Enemy.prototype.update = function(dt) {
   else {
     this.x = 0;
   }
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
+};
+// new reset button
+Enemy.prototype.reset = function (){
+  this.speed = Math.floor(Math.random() * 200);
 };
 
 // Draw the enemy on the screen, required method for game
@@ -27,10 +31,10 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-var enemy1 = new Enemy(-100, 55, 120)
-var enemy2 = new Enemy(0, 138, 90)
-var enemy3 = new Enemy(-250, 138, 90)
-var enemy4 = new Enemy(-300, 221, 65)
+var enemy1 = new Enemy(-100, 138, 120)
+var enemy2 = new Enemy(0, 221, 90)
+var enemy3 = new Enemy(-250, 221, 90)
+var enemy4 = new Enemy(-300, 304, 65)
 var allEnemies = [enemy1, enemy2, enemy3, enemy4];
 
 
@@ -58,6 +62,9 @@ var Player = function(x, y) {
   this.x = this.canvasrow * 2;
   this.y = (this.canvascol * 4) + 55;
   this.win = false;
+  this.score = 0; //new
+  this.lives = 3; //new
+  this.gameOver = false;   // new initially set to false
   this.sprite = 'images/char-boy.png';
 };
 
@@ -66,14 +73,11 @@ Player.prototype.render = function() {
 };
 
 Player.prototype.update = function (){
+
+};
+
+Player.prototype.checkCollisions = function (){
   for( var enemy of allEnemies){
-    /*if (enemy.x < this.x + this.canvasrow &&
-      enemy.x + enemy.canvasrow > this.x &&
-      enemy.y < this.y + this.canvasrol &&
-      enemy.canvasrol + enemy.y > this.y) {
-       //this.x = 0; //&& this.y = 0
-       console.log("collide!");
-   }*/
     if(this.y === enemy.y && (
       enemy.x < this.x + this.canvasrow / 2 &&
       enemy.x + enemy.canvasrow / 2 > this.x /*&&
@@ -81,14 +85,16 @@ Player.prototype.update = function (){
       enemy.canvasrol + enemy.y > this.y*/)){
       this.reset();
       console.log("collide!");
+      player.lives -= 1;
     }
-    if( this.y === -28){
+    if( this.y === -28 && this.x === 101){
       console.log("win!");
       this.win = true;
+      this.score += 10;
       //alert("win!");
       this.reset();
     }
-    console.log(this.y, enemy.y);
+    console.log(this.x, enemy.y);
   }
 };
 
@@ -123,6 +129,84 @@ this.y = (this.canvascol * 4) + 55;
 };
 
 var player = new Player(0,0);
+
+/*
+/////// scores and lives
+var score = "Score: %data%";
+var scoredata = document.getElementById("score");
+var scoredata.textContext = score.replace("%data%", this.score);
+var lives = "Lives: %data%";
+var livesdata = document.getElementById("lives");
+var livesdata.textContext = score.replace("%data%", this.lives);
+
+///// Win the game
+if(this.score >=10 && !=this.gameOver){
+  //$("#winModal").modal("show");
+  console.log("You Won!")
+  this.gameOver = true;
+}
+
+//////lost game
+if(player.lives <= 0 && !=this.gameOver){
+  //$("#lostModal").modal("show");
+  console.log("You Lost!");
+  this.gameOver = true;
+}
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+var Gems = function() {
+    this.canvasrow = 20;
+    this.canvascol =  25;
+    this.x = x;
+    this.y = y;
+    this.allGems = ['images/Gem Blue.png', 'images/Gem Green.png', 'images/Gem Orange.png'];
+    this.sprite = allGems[math.floor(Math.random()* allGems.length)];
+
+};
+
+Gems.prototype.checkGems = function() {
+      if(this.y === player.y && (
+        player.x < this.x + this.canvasrow / 2 &&
+        player.x + player.canvasrow / 2 > this.x /*&&
+        enemy.y < this.y + this.canvasrol &&
+        enemy.canvasrol + enemy.y > this.y*/)){
+        console.log("gem!");
+        if(this.sprite === 'images/Gem Blue.png'){
+          player.score += 20;
+        }
+        else if(this.sprite === 'images/Gem Green.png'){
+          player.score += 30;
+        }
+        else if(this.sprite === 'images/Gem Orange.png'){
+          player.score += 40;
+        }
+        // this.reset();
+      }
+  };
+
+Gems.prototype.update = function() {
+    this.checkGems();
+  };
+
+
+// Draw the enemy on the screen, required method for game
+Gems.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+//var gem = new Gems(0, 138)
+
+
+
+
+/*Gems.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+var gem = new Gems (0,0);*/
+
 /* explicação:no update é quando inserimos o collision porque será exatamente a função
 que  terá que fazer a cada vez que se encontram.
 do if (){} fórmula montada que foi substituida e que basicamente marca as extremidades
