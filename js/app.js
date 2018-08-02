@@ -56,7 +56,20 @@ var Player = function(x, y) {
   this.lives = 3; //new
   this.gameOver = false;   // new initially set to false
   this.sprite = 'images/char-boy.png';
+  $("#livescount").text(this.lives);
+  $("#scoreBar").text(this.score);
+  //this.start();
 };
+
+Player.prototype.start = function(){
+  this.x = 202;
+  this.y = 387;
+  this.lives = 3;
+  this.score = 0;
+  $("#livescount").text(this.lives);
+  $("#scoreBar").text(this.score);
+}
+
 
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -66,7 +79,16 @@ Player.prototype.update = function (){
   if( this.y === -28 && this.x === 101){
     this.win = true;
     this.score += 10;
+    $("#scoreBar").text(this.score);
     console.log("win!");
+    this.gameOver = false;
+    this.x = 202;
+    this.y = 387;
+    if(this.score === 20){
+      $("#winModal").modal("show");
+      this.gameOver = true;
+      player.start();
+    }
   }
 };
 
@@ -74,12 +96,18 @@ Player.prototype.checkCollisions = function (){
   for( var enemy of allEnemies){
     if(this.y === enemy.y && (
       enemy.x < this.x + this.canvasrow / 2 &&
-      enemy.x + enemy.canvasrow / 2 > this.x /*&&
-      enemy.y < this.y + this.canvasrol &&
-      enemy.canvasrol + enemy.y > this.y*/)){
+      enemy.x + enemy.canvasrow / 2 > this.x)){
       this.reset();
       console.log("collide!");
       player.lives -= 1;
+      $("#livescount").text(this.lives);
+      if(player.lives === 0){
+        $("#gameoverModal").modal("show");
+        this.gameOver = true;
+        player.start();
+      }
+    } else {
+      player.update();
     }
   }
 };
@@ -112,27 +140,26 @@ Player.prototype.handleInput = function (input){
 Player.prototype.reset = function (){
   this.x = this.canvasrow * 2;
   this.y = (this.canvascol * 4) + 55;
-  this.score = 0; //new
-  this.lives = 3; //new
-  this.gameOver = false;   // new initially set to false
 };
+
+function newGameListener(){
+  restartButton.addEventListener("click", Player.prototype.restart);
+}
 
 /*
 /////// scores and lives
-var score = "Score: %data%";
+var scored = "Score: %data%";
 var scoredata = document.getElementById("score");
-var scoredata.textContext = score.replace("%data%", this.score);
-var lives = "Lives: %data%";
-var livesdata = document.getElementById("lives");
-var livesdata.textContext = score.replace("%data%", this.lives);
-
+scoredata.textContext = scored.replace("%data%", Player.score);
+/*
 ///// Win the game
-if(this.score >=10 && !=this.gameOver){
-  //$("#winModal").modal("show");
-  console.log("You Won!")
-  this.gameOver = true;
-}
+Player.prototype.win = function (){
+  if(this.win === true){
+    $("#winModal").modal("show");
+  }
+}*/
 
+/*
 //////lost game
 if(player.lives <= 0 && !=this.gameOver){
   //$("#lostModal").modal("show");
@@ -224,7 +251,32 @@ com Enemy. Voilà! Tudo conectado.
      this.x = 0; //&& this.y = 0
      console.log("You lost!");
  }*/
+/*
+function gameReset(){
+  allEnemies.forEach(function(enemy) {
+    enemy.reset();
+  });
+  player.reset();
+  allGems.forEach(function(gem) {
+  gem.reset();
+  });
+  $("#loseModal").modal("hide");
+  $("#winModal").modal("hide");
+}*/
+/*
+/// addEventListener buttons
+$(document).on("click", "breplay", function(){
+  game.reset();
+});
 
+$(document).on("click", "breplaynewc", function(){
+  $("#spriteModal").modal("show");
+});
+
+$(document).on("click", ".bcancelbtn", function(){
+  $("#endModal").modal("show");
+});
+*/
 // Now instantiate your objects.
 // Enemies
 var enemy1 = new Enemy(-100, 138, 120);
@@ -246,6 +298,10 @@ var allGems = [gem1, gem2, gem3];
 
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+
+
+
+
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.

@@ -24,6 +24,7 @@ var Engine = (function(global) {
         ctx = canvas.getContext('2d'),
         lastTime;
 
+
     canvas.width = 505;
     canvas.height = 606;
     doc.body.appendChild(canvas);
@@ -55,10 +56,10 @@ var Engine = (function(global) {
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
-         /*if(player.win === true){
-           win.cancelAnimationFrame(animation);
-         } else {
-          animation = win.requestAnimationFrame(main);
+        /* if(player.lives === 0){
+           win.cancelAnimationFrame(gameOver);
+         }else {
+          gameOver = win.requestAnimationFrame(main);
         }*/
          win.requestAnimationFrame(main);
     }
