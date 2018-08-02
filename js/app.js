@@ -1,10 +1,10 @@
 // Enemies our player must avoid
-var Enemy = function(x, y, speed) {
+var Enemy = function(x, y) {
     this.x = x;
     this.y = y;
     this.canvasrow = 101;
     this.limit = this.canvasrow * 5;
-    this.speed = speed;
+    this.speed = Math.floor(Math.random() * 300);
     this.sprite = 'images/enemy-bug.png';
 };
 
@@ -22,10 +22,10 @@ Enemy.prototype.update = function(dt) {
   }
 };
 // new reset button
-Enemy.prototype.reset = function (){
+/*Enemy.prototype.reset = function (){
   this.speed = Math.floor(Math.random() * 200);
 };
-
+*/
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -68,7 +68,7 @@ Player.prototype.start = function(){
   this.score = 0;
   $("#livescount").text(this.lives);
   $("#scoreBar").text(this.score);
-}
+};
 
 
 Player.prototype.render = function() {
@@ -84,7 +84,7 @@ Player.prototype.update = function (){
     this.gameOver = false;
     this.x = 202;
     this.y = 387;
-    if(this.score === 20){
+    if(this.score >= 40){
       $("#winModal").modal("show");
       this.gameOver = true;
       player.start();
@@ -146,28 +146,6 @@ function newGameListener(){
   restartButton.addEventListener("click", Player.prototype.restart);
 }
 
-/*
-/////// scores and lives
-var scored = "Score: %data%";
-var scoredata = document.getElementById("score");
-scoredata.textContext = scored.replace("%data%", Player.score);
-/*
-///// Win the game
-Player.prototype.win = function (){
-  if(this.win === true){
-    $("#winModal").modal("show");
-  }
-}*/
-
-/*
-//////lost game
-if(player.lives <= 0 && !=this.gameOver){
-  //$("#lostModal").modal("show");
-  console.log("You Lost!");
-  this.gameOver = true;
-}
-*/
-
 ////////////////////////////////////////////////////////////////////////////////////////
 
 var Gems = function(x, y, sprite) {
@@ -175,43 +153,70 @@ var Gems = function(x, y, sprite) {
   //this.sprite = gemSprite[Math.floor(Math.random()* gemSprite.length)];
     this.x = x;
     this.y = y;
-    this.canvasrow = 20;
-    this.canvascol =  25;
+    this.canvascol = 20;
+    this.canvasrow = 101;
+    this.limit = this.canvasrow * 5;
+    this.speed = Math.floor(Math.random() * 50);
     this.sprite = sprite;
-    //this.x = Math.floor(Math.random() * (450));
-    //this.y = Math.floor(Math.random() * (350));
+    //this.x = Math.floor(Math.random(5) * (400));
+    //this.y = Math.floor(Math.random(6) * (400));
 };
+
+Gems.prototype.update = function(dt) {
+  if(this.x < this.limit){
+    this.x += this.speed * dt;
+  }
+  else {
+    this.x = 600;
+  }
+};
+
+/*
+  Gems.prototype.final = function (){
+    if( this.y === -28 && this.x === 101){
+      this.win = true;
+      this.score += 10;
+      $("#scoreBar").text(this.score);
+      console.log("win!");
+      this.gameOver = false;
+      this.x = 202;
+      this.y = 387;
+      if(this.score >= 40){
+        $("#winModal").modal("show");
+        this.gameOver = true;
+        player.start();
+      }
+    }
+  };
+*/
+
+
+
 
 Gems.prototype.checkGems = function() {
   for( var gem of allGems){
     if(this.y === player.y && (
       player.x < this.x + this.canvasrow / 2 &&
-      player.x + player.canvasrow / 2 > this.x //&&
-      //enemy.y < this.y + this.canvasrol &&
-      //enemy.canvasrol + enemy.y > this.y
+      player.x + player.canvasrow / 2 > this.x
     )){
-      //this.reset();
       console.log("gem!");
       if(this.sprite === 'images/Gem Blue.png'){
+        this.x = 900;
         player.score += 20;
+        $("#scoreBar").text(player.score);
       }
       else if(this.sprite === 'images/Gem Green.png'){
+        this.x = 900;
         player.score += 30;
+        $("#scoreBar").text(player.score);
       }
-      else if(this.sprite === 'images/Gem Orange.png'){
+     else if(this.sprite === 'images/Gem Orange.png'){
+      this.x = 900;
         player.score += 40;
+        $("#scoreBar").text(player.score);
       }
-
-      /*
-          player.score += 40;
-        }
-        this.reset();*/
      }
    }
-  };
-
-Gems.prototype.update = function() {
-    this.checkGems();
   };
 
 
@@ -220,13 +225,6 @@ Gems.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-
-
-
-
-Gems.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
 
 /* explicação:no update é quando inserimos o collision porque será exatamente a função
 que  terá que fazer a cada vez que se encontram.
@@ -243,55 +241,22 @@ eu encontro a relação e é onde ele chama o update function é o player.update
 enemy. o player.update(enemy) está dentro do allEnemies.  All enemies por sua vez está no app.js e linka
 com Enemy. Voilà! Tudo conectado.
  */
-/*Player.prototype.update = function(enemy){
-  if (enemy.x < this.x + this.canvasrow &&
-    enemy.x + enemy.canvasrow > this.x &&
-    enemy.y < this.y + this.canvasrol &&
-    enemy.canvasrol + enemy.y > this.y) {
-     this.x = 0; //&& this.y = 0
-     console.log("You lost!");
- }*/
-/*
-function gameReset(){
-  allEnemies.forEach(function(enemy) {
-    enemy.reset();
-  });
-  player.reset();
-  allGems.forEach(function(gem) {
-  gem.reset();
-  });
-  $("#loseModal").modal("hide");
-  $("#winModal").modal("hide");
-}*/
-/*
-/// addEventListener buttons
-$(document).on("click", "breplay", function(){
-  game.reset();
-});
 
-$(document).on("click", "breplaynewc", function(){
-  $("#spriteModal").modal("show");
-});
-
-$(document).on("click", ".bcancelbtn", function(){
-  $("#endModal").modal("show");
-});
-*/
 // Now instantiate your objects.
 // Enemies
-var enemy1 = new Enemy(-100, 138, 120);
-var enemy2 = new Enemy(0, 221, 90);
-var enemy3 = new Enemy(-250, 221, 90);
-var enemy4 = new Enemy(-300, 304, 65);
+var enemy1 = new Enemy(-100, 138);
+var enemy2 = new Enemy(0, 221);
+var enemy3 = new Enemy(-250, 221);
+var enemy4 = new Enemy(-300, 304);
 var allEnemies = [enemy1, enemy2, enemy3, enemy4];
 
 //Player
 var player = new Player(0,0);
 
 //Gems
-var gem1 = new Gems(0, 304, 'images/Gem Blue.png');
-var gem2 = new Gems(0, 221, 'images/Gem Green.png');
-var gem3 = new Gems(0, 138, 'images/Gem Orange.png');
+var gem1 = new Gems(-50, 138, 'images/Gem Blue.png');
+var gem2 = new Gems(-200, 221, 'images/Gem Green.png');
+var gem3 = new Gems(-350, 304, 'images/Gem Orange.png');
 var allGems = [gem1, gem2, gem3];
 
 
