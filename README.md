@@ -1,5 +1,4 @@
 <h1>Welcome to "Sweet Crazy Ladybugs Game"</h1>
-===============================
 
 <h2>Introduction</h2>
 This game was developed based on the frontend-nanodegree-arcade-game project.
@@ -41,11 +40,3 @@ To gain points little princess needs to touch:
 
   <h3>Are you ready?</h3>
   <h3>Let's play and have fun!</h3>
-
-
-
-
-
-
-
-If she touches the lose 1 live
