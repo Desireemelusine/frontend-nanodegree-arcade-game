@@ -1,9 +1,9 @@
-// Enemies our player must avoid
+//////////// Enemies
 var Enemy = function(x, y) {
     this.x = x;
     this.y = y;
     this.canvasrow = 101;
-    this.limit = this.canvasrow * 5;
+    this.limit = this.canvasrow * 7;
     this.speed = Math.floor(Math.random() * 300);
     this.sprite = 'images/enemy-bug.png';
 };
@@ -16,22 +16,17 @@ var Enemy = function(x, y) {
 Enemy.prototype.update = function(dt) {
   if(this.x < this.limit){
     this.x += this.speed * dt;
-  }
-  else {
+  } else {
     this.x = 0;
   }
 };
-// new reset button
-/*Enemy.prototype.reset = function (){
-  this.speed = Math.floor(Math.random() * 200);
-};
-*/
+
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-//Abaixo apresento uma outra opção de OOP
+//Abaixo apresento uma outra opção de OOP- inorar valores
 /*class Player {
   constructor(){
     this.x = 0;
@@ -45,31 +40,41 @@ Enemy.prototype.render = function() {
   }
 }*/
 
-
+//////////// Player
 var Player = function(x, y) {
   this.canvasrow = 101;
   this.canvascol = 83;
-  this.x = this.canvasrow * 2;
+  this.x = this.canvasrow * 3;
   this.y = (this.canvascol * 4) + 55;
   this.win = false;
-  this.score = 0; //new
-  this.lives = 3; //new
+  this.score = 0;
+  this.lives = 3;
   this.gameOver = false;   // new initially set to false
-  this.sprite = 'images/char-boy.png';
+  this.sprite = 'images/char-princess-girl.png';
   $("#livescount").text(this.lives);
   $("#scoreBar").text(this.score);
-  //this.start();
 };
 
 Player.prototype.start = function(){
-  this.x = 202;
+  this.x = 303;
   this.y = 387;
   this.lives = 3;
   this.score = 0;
   $("#livescount").text(this.lives);
   $("#scoreBar").text(this.score);
+  for( var gem of allGems){
+    gem.canvasrow = 101;
+    gem.limit = this.canvasrow * 7;
+    gem.speed = Math.floor(Math.random() * 250);
+    gem.update();
+  }
+  for( var enemy of allEnemies){
+    enemy.canvasrow = 101;
+    enemy.limit = this.canvasrow * 7;
+    enemy.speed = Math.floor(Math.random() * 325);
+    enemy.update();
+  }
 };
-
 
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -84,7 +89,7 @@ Player.prototype.update = function (){
     this.gameOver = false;
     this.x = 202;
     this.y = 387;
-    if(this.score >= 40){
+    if(this.score >= 150){
       $("#winModal").modal("show");
       this.gameOver = true;
       player.start();
@@ -99,8 +104,10 @@ Player.prototype.checkCollisions = function (){
       enemy.x + enemy.canvasrow / 2 > this.x)){
       this.reset();
       console.log("collide!");
+      player.score -= 5;
       player.lives -= 1;
       $("#livescount").text(this.lives);
+      $("#scoreBar").text(this.score);
       if(player.lives === 0){
         $("#gameoverModal").modal("show");
         this.gameOver = true;
@@ -120,7 +127,7 @@ Player.prototype.handleInput = function (input){
         }
       break;
     case "right":
-      if(this.x < this.canvasrow * 4){
+      if(this.x < this.canvasrow * 6){
         this.x += this.canvasrow;
         }
       break;
@@ -130,7 +137,7 @@ Player.prototype.handleInput = function (input){
       }
       break;
     case "down":
-      if(this.y < this.canvascol * 5){
+      if(this.y < this.canvascol * 4){
         this.y += this.canvascol;
         }
       break;
@@ -138,60 +145,29 @@ Player.prototype.handleInput = function (input){
 };
 
 Player.prototype.reset = function (){
-  this.x = this.canvasrow * 2;
+  this.x = this.canvasrow * 3;
   this.y = (this.canvascol * 4) + 55;
 };
 
-function newGameListener(){
-  restartButton.addEventListener("click", Player.prototype.restart);
-}
 
-////////////////////////////////////////////////////////////////////////////////////////
-
+///////////////////////GEMS
 var Gems = function(x, y, sprite) {
-  //var gemSprite = ['images/Gem Blue.png', 'images/Gem Green.png', 'images/Gem Orange.png'];
-  //this.sprite = gemSprite[Math.floor(Math.random()* gemSprite.length)];
     this.x = x;
     this.y = y;
-    this.canvascol = 20;
+    this.canvascol = 83;
     this.canvasrow = 101;
-    this.limit = this.canvasrow * 5;
-    this.speed = Math.floor(Math.random() * 50);
+    this.limit = this.canvasrow * 7;
+    this.speed = Math.floor(Math.random() * 150);
     this.sprite = sprite;
-    //this.x = Math.floor(Math.random(5) * (400));
-    //this.y = Math.floor(Math.random(6) * (400));
 };
 
 Gems.prototype.update = function(dt) {
   if(this.x < this.limit){
     this.x += this.speed * dt;
-  }
-  else {
-    this.x = 600;
+  } else {
+    this.x = -500;
   }
 };
-
-/*
-  Gems.prototype.final = function (){
-    if( this.y === -28 && this.x === 101){
-      this.win = true;
-      this.score += 10;
-      $("#scoreBar").text(this.score);
-      console.log("win!");
-      this.gameOver = false;
-      this.x = 202;
-      this.y = 387;
-      if(this.score >= 40){
-        $("#winModal").modal("show");
-        this.gameOver = true;
-        player.start();
-      }
-    }
-  };
-*/
-
-
-
 
 Gems.prototype.checkGems = function() {
   for( var gem of allGems){
@@ -199,28 +175,30 @@ Gems.prototype.checkGems = function() {
       player.x < this.x + this.canvasrow / 2 &&
       player.x + player.canvasrow / 2 > this.x
     )){
-      console.log("gem!");
+      //console.log("same row!");----- test
       if(this.sprite === 'images/Gem Blue.png'){
         this.x = 900;
         player.score += 20;
         $("#scoreBar").text(player.score);
-      }
-      else if(this.sprite === 'images/Gem Green.png'){
+      } else if(this.sprite === 'images/Gem Green.png'){
         this.x = 900;
         player.score += 30;
         $("#scoreBar").text(player.score);
-      }
-     else if(this.sprite === 'images/Gem Orange.png'){
-      this.x = 900;
+      } else if(this.sprite === 'images/Gem Orange.png'){
+        this.x = 900;
         player.score += 40;
         $("#scoreBar").text(player.score);
-      }
+      } else if(this.sprite === 'images/Rock.png'){
+        this.x = 900;
+        player.score -= 50;
+        player.reset();
+        $("#scoreBar").text(player.score);
+       }
      }
+     // TEST console.log(this.y, player.y)
    }
   };
 
-
-// Draw the enemy on the screen, required method for game
 Gems.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
@@ -257,16 +235,9 @@ var player = new Player(0,0);
 var gem1 = new Gems(-50, 138, 'images/Gem Blue.png');
 var gem2 = new Gems(-200, 221, 'images/Gem Green.png');
 var gem3 = new Gems(-350, 304, 'images/Gem Orange.png');
-var allGems = [gem1, gem2, gem3];
-
-
-
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
-
-
-
-
+var gem4 = new Gems(0, 55, 'images/Rock.png');
+var gem5 = new Gems(-100, 55, 'images/Rock.png');
+var allGems = [gem1, gem2, gem3, gem4, gem5];
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.

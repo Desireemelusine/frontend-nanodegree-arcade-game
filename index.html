@@ -2,23 +2,28 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Effective JavaScript: Frogger</title>
+    <title>Effective JavaScript: Sweet Crazy Ladybugs Game</title>
     <link rel="stylesheet" href="css/style.css">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Kirang+Haerang|Modern+Antiqua|Open+Sans+Condensed:300" rel="stylesheet">
 </head>
 <body>
-    <h1>Arcade Game</h1>
-    <div class="board">
+    <h1 class= "title">Sweet Crazy Ladybugs Game</h1>
+    <h5 class= "title2">Blue Diamond: 20p | Green Diamond: 30p | Yellow Diamond: 40p | Star: 5p </h5>
+    <h5 class= "title2">If you touch:  Ladybug = -1 live & Stone = -50p | To win you need make a min of 150p & finish by touching the star!</h5>
+    <div class="board1">
+      <span class= "subtitle">Score </span>
+      <span class= "subtitle"> Lives</span>
+    </div>
+    <div class="board2">
       <span id = "scoreBar"></span>
+      <span class="division">  | </span>
       <span id = "livescount"></span>
     </div>
 
-    <!-- Trigger the modal with a button -->
-    <!--  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button> -->
-
-    <!-- Modal -->
+    <!-- Modal - LOST -->
     <div id="gameoverModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
 
@@ -29,18 +34,18 @@
             <h4 class="modal-title">Stats</h4>
           </div>
           <div class="modal-body">
-            <p>Ohhh No! The buggies won!!</p>
-            <p>Do you want to play again?</p>
+            <p class="stats">Ohhh No! The Ladybugs won!!</p>
+            <p class="question">Do you want to play again?</p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal" data-target="#endModal">Close</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal" data-target="#playModal">Play Again</button>
+            <button type="button" class="btn btn-default button" data-dismiss="modal" data-target="#endModal">Close</button>
+            <button type="button" class="btn btn-default button" data-dismiss="modal" data-target="#playModal">Play Again</button>
           </div>
         </div>
-
       </div>
     </div>
-    <!-- Modal -->
+
+    <!-- Modal - WIN -->
     <div id="winModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
 
@@ -51,15 +56,14 @@
             <h4 class="modal-title">Stats</h4>
           </div>
           <div class="modal-body">
-            <p>Yeah!!!! You won!!</p>
-            <p>Do you want to play again?</p>
+            <p class="stats">Yeah!!!! You won!!</p>
+            <p class="question">Do you want to play again?</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal" data-target="#endModal">Close</button>
             <button type="button" class="btn btn-default" data-dismiss="modal" data-target="#playModal">Play Again</button>
           </div>
         </div>
-
       </div>
     </div>
 
@@ -69,7 +73,8 @@
     <script src="js/resources.js"></script>
     <script src="js/app.js"></script>
     <script src="js/engine.js"></script>
-
-
 </body>
+<footer>
+  <h5 class= "title2"> Front-end Developer Désirée Melusine </h5>
+</footer>
 </html>

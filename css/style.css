@@ -1,71 +1,60 @@
 body {
     text-align: center;
+    font-family: 'Kirang Haerang', cursive;
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-family: 'Modern Antiqua', cursive;
+    font-family: 'Amatic SC', cursive;
 }
 
-#loseModal {
-
-};
-
-#endModal{
-
-};
-
-.modal_on {
-  margin-top: 200px;
+.title {
+  font-size: 10rem;
+  font-family: 'Amatic SC', cursive;
+  font-weight: 300;
+  color: #cc8904;
 }
 
-#winModal .modal_base {
-  background-position: center;
-  background: #ffffff;
-}
-.modal_base {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 400px;
-  background: #ffffff;
-  transform: translate(-50%, -70%);
-}*/
-
-/*#winModal .modal_heading {
-  display: flex;
-  justify-content: space-between;
-  padding:  0 2rem;
-  border-bottom: 1px solid gray;
+.title2 {
+  font-size: 1.5rem;
+  font-family: 'Modern Antiqua', cursive;
+  color: #b3ccc8;
 }
 
-#winModal .modal_stats {
- display: flex;
- flex-direction: column;
- align-items: center;
- padding: 1rem;
- border-bottom: 1px solid gray;
-}
-*/
-#winModal .modal_heading,
-#winModal .modal_buttons {
-background: gray;
+.subtitle {
+  font-family: 'Kirang Haerang', cursive;
+  font-weight: 300;
+  font-size: 3rem;
+  color: #a56b81;
 }
 
-
-.modal_buttons {
-  text-align: center;
-}
-/*
-.modal_buttons {
-  display: flex;
-  justify-content: center;
-  padding: 1rem;
-}
-*/
-.bcancel {
-
+span {
+font-family: 'Kirang Haerang', cursive;
+font-size: 5rem;
+color: #a56b81;
 }
 
-.breplay {
-
+.division {
+font-family: 'Amatic SC', cursive;
+font-size: 5rem;
+font-weight: 300;
+color: #cc8904;
 }
 
-.breplaynewc {
+.stats {
+  font-size: 5rem;
+  font-family: 'Amatic SC', cursive;
+  font-weight: 300;
+  color: #cc8904;
+}
 
+.question {
+  font-size: 3rem;
+  font-family: 'Amatic SC', cursive;
+  font-weight: 300;
+  color: #a56b81;
+}
+
+.button {
+font-family: 'Kirang Haerang', cursive;
+font-size: 5rem;
+color: #a56b81;
 }
