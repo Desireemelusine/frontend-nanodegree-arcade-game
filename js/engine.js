@@ -57,11 +57,6 @@ var Engine = (function(global) {
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
-        /* if(player.lives === 0){
-           win.cancelAnimationFrame(gameOver);
-         }else {
-          gameOver = win.requestAnimationFrame(main);
-        }*/
          win.requestAnimationFrame(main);
     }
 
@@ -73,7 +68,6 @@ var Engine = (function(global) {
         reset();
         lastTime = Date.now();
         main();
-        //$("#playModal").modal("show");
     }
 
     /* This function is called by main (our game loop) and itself calls all
