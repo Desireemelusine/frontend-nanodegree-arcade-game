@@ -18,7 +18,7 @@ The purpose of the project is to work with <strong>Object-oriented</strong> (cla
     <li>resources.load extra images</li>
     </ul>
 
-<strong>js/engine.js</strong> | Provided by Udacity nanodegree but just the Enemy with few items and Enemy.prototype.update, Enemy.prototype.render and line 244. The rest of the coding was developed by me <em>with the help and collaboration of my mentor, udacity forum frontend group and a lot of research based on developer.mozilla.org, w3schools.com and bootstrap.<em>
+<strong>js/app.js</strong> | Provided by Udacity nanodegree but just the Enemy with few items and Enemy.prototype.update, Enemy.prototype.render and line 244. The rest of the coding was developed by me <em>with the help and collaboration of my mentor, udacity forum frontend group and a lot of research based on developer.mozilla.org, w3schools.com and bootstrap.<em>
 The Gems was an additional option that  I decided to do it to make it the game more fun and to practice more the Object-oriented.
 
 <strong>index.html</strong> |  Provided by Udacity nanodegree with the minimum requirement so the game could work.
@@ -35,7 +35,7 @@ To gain points little princess needs to touch:
   <li>Blue Diamond: 20p</li>
   <li>Green Diamond: 30p</li>
   <li>Yellow Diamond: 40p</li>
-  <li>Star: 5 p</li>
+  <li>Star: 5p</li>
 </ul>
 
   <h3>Are you ready?</h3>

@@ -84,9 +84,8 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
           player.checkCollisions();
         });
-
         allGems.forEach(function(gem) {
-          gem.checkGems();
+          gem.checkGems(player);
         });
 
     }

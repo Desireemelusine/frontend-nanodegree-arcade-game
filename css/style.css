@@ -19,6 +19,13 @@ body {
   color: #b3ccc8;
 }
 
+.title3 {
+  font-size: 3rem;
+  font-family: 'Amatic SC', cursive;
+  font-weight: 300;
+  color: #cc8904;
+}
+
 .subtitle {
   font-family: 'Kirang Haerang', cursive;
   font-weight: 300;

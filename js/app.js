@@ -1,11 +1,16 @@
+//////General
+var Global = function (x, y, sprite){
+  this.x = x;
+  this.y = y;
+  this. sprite = sprite;
+};
+
 //////////// Enemies
-var Enemy = function(x, y) {
-    this.x = x;
-    this.y = y;
+var Enemy = function(x, y, sprite) {
+    Global.call(this, x, y, 'images/enemy-bug.png');
     this.canvasrow = 101;
     this.limit = this.canvasrow * 7;
     this.speed = Math.floor(Math.random() * 300);
-    this.sprite = 'images/enemy-bug.png';
 };
 
 // Update the enemy's position, required method for game
@@ -38,13 +43,11 @@ Enemy.prototype.render = function() {
 var Player = function(x, y) {
   this.canvasrow = 101;
   this.canvascol = 83;
-  this.x = this.canvasrow * 3;
-  this.y = (this.canvascol * 4) + 55;
+  Global.call(this,this.canvasrow * 3, (this.canvascol * 4) + 55, 'images/char-princess-girl.png');
   this.win = false;
   this.score = 0;
   this.lives = 3;
   this.gameOver = false;   // new initially set to false
-  this.sprite = 'images/char-princess-girl.png';
   $("#livescount").text(this.lives);
   $("#scoreBar").text(this.score);
 };
@@ -65,7 +68,7 @@ Player.prototype.render = function() {
 Player.prototype.update = function (){
   if( this.y === -28 && this.x === 101){
     this.win = true;
-    this.score += 10;
+    this.score += 5;
     $("#scoreBar").text(this.score);
     console.log("win!");
     this.gameOver = false;
@@ -134,13 +137,16 @@ Player.prototype.reset = function (){
 
 ///////////////////////GEMS
 var Gems = function(x, y, sprite) {
-    this.x = Math.floor(Math.random() * x);
-    this.y = y;
+    Global.call(this, Math.floor(Math.random() * x), y, sprite);
+    this.posx = x;
     this.canvascol = 83;
     this.canvasrow = 101;
     this.limit = this.canvasrow * 7;
     this.speed = Math.floor(Math.random() * 150);
-    this.sprite = sprite;
+};
+
+Gems.prototype.restart = function(){
+  this.x =Math.floor(Math.random() * this.posx);
 };
 
 Gems.prototype.start = function(){
@@ -159,7 +165,6 @@ Gems.prototype.update = function(dt) {
 };
 
 Gems.prototype.checkGems = function (Player) {
-  //for( var gem of allGems){
     if(this.y === player.y && (
       player.x < this.x + this.canvasrow / 2 &&
       player.x + player.canvasrow / 2 > this.x
@@ -185,7 +190,6 @@ Gems.prototype.checkGems = function (Player) {
        }
      }
      // TEST console.log(this.y, player.y)
-  // }
   };
 
 Gems.prototype.render = function() {
@@ -226,6 +230,18 @@ var gem2 = new Gems(-200, 221, 'images/Gem Green.png');
 var gem3 = new Gems(-350, 304, 'images/Gem Orange.png');
 var gem4 = new Gems(0, 55, 'images/Rock.png');
 var allGems = [gem1, gem2, gem3, gem4];
+
+// modal
+document.addEventListener('DOMContentLoaded', function(){
+  $("#welcomeModal").modal("show");
+  });
+
+ $("#btplay").click(function(){
+  allGems.forEach(function(gem){
+    gem.restart();
+    })
+  //console.log("clicked"); test
+});
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.

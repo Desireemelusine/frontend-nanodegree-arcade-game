@@ -23,23 +23,41 @@
       <span id = "livescount"></span>
     </div>
 
-    <!-- Modal - LOST -->
-    <div id="gameoverModal" class="modal fade" role="dialog">
+    <!-- Modal - Welcome -->
+    <div id="welcomeModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Stats</h4>
+          </div>
+          <div class="modal-body">
+            <p class= "title3">Welcome to Sweet Crazy Ladybugs Game</p>
+            <h5 class= "subtitle">Rules</h5>
+            <h5 class= "title2">Blue Diamond: 20p | Green Diamond: 30p | Yellow Diamond: 40p | Star: 5p </h5>
+            <h5 class= "title2">If you touch:  Ladybug = -1 live + -5p & Stone = -50p</h5>
+            <h5 class= "title2">To win you need make a min of 150p & finish by touching the star!</h5>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default button" data-dismiss="modal" data-target="#playModal" id= "btplay">Let's play!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal - LOST -->
+    <div id="gameoverModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
           </div>
           <div class="modal-body">
             <p class="stats">Ohhh No! The Ladybugs won!!</p>
             <p class="question">Do you want to play again?</p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default button" data-dismiss="modal" data-target="#endModal">Close</button>
-            <button type="button" class="btn btn-default button" data-dismiss="modal" data-target="#playModal">Play Again</button>
+            <button type="button" class="btn btn-default button" data-dismiss="modal" data-target="#playModal" id= "btplay">Play Again</button>
           </div>
         </div>
       </div>
@@ -48,26 +66,21 @@
     <!-- Modal - WIN -->
     <div id="winModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Stats</h4>
           </div>
           <div class="modal-body">
             <p class="stats">Yeah!!!! You won!!</p>
             <p class="question">Do you want to play again?</p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal" data-target="#endModal">Close</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal" data-target="#playModal">Play Again</button>
+            <button  type="button" class="btn btn-default" data-dismiss="modal" data-target="#playModal" id= "btplay">Play Again</button>
           </div>
         </div>
       </div>
     </div>
-
-
 
 
     <script src="js/resources.js"></script>
