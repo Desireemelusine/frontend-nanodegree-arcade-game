@@ -13,11 +13,19 @@ var Enemy = function(x, y) {
 // You should multiply any movement by the dt parameter
 // which will ensure the game runs at the same speed for
 // all computers.
+
+Enemy.prototype.start = function(){
+    this.canvasrow = 101;
+    this.limit = this.canvasrow * 7;
+    this.speed = Math.floor(Math.random() * 325);
+};
+
 Enemy.prototype.update = function(dt) {
+  this.start();
   if(this.x < this.limit){
     this.x += this.speed * dt;
   } else {
-    this.x = 0;
+    this.x = -5;
   }
 };
 
@@ -25,20 +33,6 @@ Enemy.prototype.update = function(dt) {
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
-
-//Abaixo apresento uma outra opção de OOP- inorar valores
-/*class Player {
-  constructor(){
-    this.x = 0;
-    this.y = 0;
-    //this.width = 75;
-    //this.height = 75;
-    this.sprite = 'images/char-boy.png';
-  }
-  render(){
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-  }
-}*/
 
 //////////// Player
 var Player = function(x, y) {
@@ -62,18 +56,6 @@ Player.prototype.start = function(){
   this.score = 0;
   $("#livescount").text(this.lives);
   $("#scoreBar").text(this.score);
-  for( var gem of allGems){
-    gem.canvasrow = 101;
-    gem.limit = this.canvasrow * 7;
-    gem.speed = Math.floor(Math.random() * 250);
-    gem.update();
-  }
-  for( var enemy of allEnemies){
-    enemy.canvasrow = 101;
-    enemy.limit = this.canvasrow * 7;
-    enemy.speed = Math.floor(Math.random() * 325);
-    enemy.update();
-  }
 };
 
 Player.prototype.render = function() {
@@ -92,29 +74,29 @@ Player.prototype.update = function (){
     if(this.score >= 150){
       $("#winModal").modal("show");
       this.gameOver = true;
-      player.start();
+      this.start();
     }
   }
 };
 
-Player.prototype.checkCollisions = function (){
+Player.prototype.checkCollisions = function (enemies){
   for( var enemy of allEnemies){
     if(this.y === enemy.y && (
       enemy.x < this.x + this.canvasrow / 2 &&
       enemy.x + enemy.canvasrow / 2 > this.x)){
       this.reset();
       console.log("collide!");
-      player.score -= 5;
-      player.lives -= 1;
+      this.score -= 5;
+      this.lives -= 1;
       $("#livescount").text(this.lives);
       $("#scoreBar").text(this.score);
-      if(player.lives === 0){
+      if(this.lives === 0){
         $("#gameoverModal").modal("show");
         this.gameOver = true;
-        player.start();
+        this.start();
       }
     } else {
-      player.update();
+      this.update();
     }
   }
 };
@@ -152,7 +134,7 @@ Player.prototype.reset = function (){
 
 ///////////////////////GEMS
 var Gems = function(x, y, sprite) {
-    this.x = x;
+    this.x = Math.floor(Math.random() * x);
     this.y = y;
     this.canvascol = 83;
     this.canvasrow = 101;
@@ -161,7 +143,14 @@ var Gems = function(x, y, sprite) {
     this.sprite = sprite;
 };
 
+Gems.prototype.start = function(){
+    this.canvasrow = 101;
+    this.limit = this.canvasrow * 7;
+    this.speed = Math.floor(Math.random() * 250);
+};
+
 Gems.prototype.update = function(dt) {
+  this.start();
   if(this.x < this.limit){
     this.x += this.speed * dt;
   } else {
@@ -169,8 +158,8 @@ Gems.prototype.update = function(dt) {
   }
 };
 
-Gems.prototype.checkGems = function() {
-  for( var gem of allGems){
+Gems.prototype.checkGems = function (Player) {
+  //for( var gem of allGems){
     if(this.y === player.y && (
       player.x < this.x + this.canvasrow / 2 &&
       player.x + player.canvasrow / 2 > this.x
@@ -196,7 +185,7 @@ Gems.prototype.checkGems = function() {
        }
      }
      // TEST console.log(this.y, player.y)
-   }
+  // }
   };
 
 Gems.prototype.render = function() {
@@ -236,8 +225,7 @@ var gem1 = new Gems(-50, 138, 'images/Gem Blue.png');
 var gem2 = new Gems(-200, 221, 'images/Gem Green.png');
 var gem3 = new Gems(-350, 304, 'images/Gem Orange.png');
 var gem4 = new Gems(0, 55, 'images/Rock.png');
-var gem5 = new Gems(-100, 55, 'images/Rock.png');
-var allGems = [gem1, gem2, gem3, gem4, gem5];
+var allGems = [gem1, gem2, gem3, gem4];
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
