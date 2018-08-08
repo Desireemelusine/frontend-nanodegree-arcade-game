@@ -30,7 +30,7 @@ The Gems was an additional option that  I decided to do it to make it the game m
 <h2>The game</h2>
 <strong>General Rules:</strong> Little Princess starts with 3 lives and 0 scores.
 To win little princess has to make more at least 150p, cross the area where the Ladybugs are passing without touching them and reach the star at the end.
-If she touches the Ladybug, she will lose 1 live and if she touches the stone, she will lose 50p.
+If she touches the Ladybug, she will lose 1 live and 5points. If she touches the stone, she will lose 50p.
 To gain points little princess needs to touch:
 <ul>
   <li>Blue Diamond: 20p</li>

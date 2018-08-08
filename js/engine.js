@@ -81,9 +81,10 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
+        allEnemies.forEach(function(enemy) {
+          player.checkCollisions();
+        });
 
-
-        player.checkCollisions();
         allGems.forEach(function(gem) {
           gem.checkGems();
         });
@@ -196,7 +197,7 @@ var Engine = (function(global) {
         'images/Gem Green.png',
         'images/Gem Orange.png',
         'images/Star.png',
-        'images/Heartxs.png',
+        'images/Heart.png',
         'images/Rock.png'
     ]);
     Resources.onReady(init);
