@@ -1,4 +1,5 @@
 // Enemies our player must avoid
+// xxxxxxxxxxxxx
 var Enemy = function(x, y) {
     this.x = x;
     this.y = y;
